@@ -56,6 +56,10 @@ defmodule ToDoServer do
     send(todo_server, {:update_entry, new_entry})
   end
 
+  def delete_entry(todo_server, entry_id) do
+    send(todo_server, {:delete_entry, entry_id})
+  end
+
   def entries(todo_server, date) do
     send(todo_server, {:entries, self(), date})
 
@@ -81,6 +85,10 @@ defmodule ToDoServer do
 
   defp process_message(todo_list, {:update_entry, new_entry}) do
     TodoList.update_entry(todo_list, new_entry)
+  end
+
+  defp process_message(todo_list, {:delete_entry, entry_id}) do
+    TodoList.delete_entry(todo_list, entry_id)
   end
 
   defp process_message(todo_list, {:entries, caller, date}) do
