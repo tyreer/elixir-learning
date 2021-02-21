@@ -52,6 +52,10 @@ defmodule ToDoServer do
     send(todo_server, {:add_entry, new_entry})
   end
 
+  def update_entry(todo_server, %{} = new_entry) do
+    send(todo_server, {:update_entry, new_entry})
+  end
+
   def entries(todo_server, date) do
     send(todo_server, {:entries, self(), date})
 
@@ -61,8 +65,6 @@ defmodule ToDoServer do
       5000 -> {:error, :timeout}
     end
   end
-
-  def update_entry(todo_server, )
 
   defp loop(todo_list) do
     new_todo_list =
@@ -75,6 +77,10 @@ defmodule ToDoServer do
 
   defp process_message(todo_list, {:add_entry, new_entry}) do
     TodoList.add_entry(todo_list, new_entry)
+  end
+
+  defp process_message(todo_list, {:update_entry, new_entry}) do
+    TodoList.update_entry(todo_list, new_entry)
   end
 
   defp process_message(todo_list, {:entries, caller, date}) do
